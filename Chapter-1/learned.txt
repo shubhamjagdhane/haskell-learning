@@ -1,0 +1,49 @@
+λ x . x
+
+All part before the . is called as the extend of the head of the lambda.
+The left most x is represent the single parameter of the function.
+The right most x is represent the expression the lambda returns when applied.
+. separates the parameters of the lambda from the function body.
+
+Alpha equivalence:
+  λx.x
+
+Beta reduction:
+  (λx.x)(λy.y)
+  
+
+Note that alpha equivalence does not apply to free variables. That is, λx.xz and λx.xy are not equivalent because z and y might be different things. However, λxy.yx and λab.ba are equivalent due to alpha equivalence, as are λx.xz and λy.yz because the free variable is left alone.
+
+
+Example:
+  1. Increment function: (λx. x+1) 5
+    It means that we have function which takes input x and returns x+1.
+    In our case 5 will get substituted with x and it leads to 5+1 = 6
+  2. Addition function: λx. λy. x+y
+    It means that we have function which takes input x and y and returns x+y
+
+
+Exercise:
+
+1. λxy.xz
+  a) λxz.xz
+  b) λmn.mz => correct
+  c) λz(λx.xz)
+2. λxy.xxy
+  a) λmn.mnp
+  b) λx(λy.xy)
+  c) λa(λb.aab) => correct
+3. λxyz.zx
+  a) λx.(λy.(λz.z))
+  b) λtos.st => correct
+  c) λmnp.mn
+
+
+Combinator: A combinator is a lambda term with no free variables.
+e.g. λy.x => Here y is bound (it occurs in the head of the lambda) but x is free.
+
+
+Divergence:
+Divergence here means that the reduction process never terminates or ends.
+e.g. (λx.xx)(λx.xx)
+x in the first lambda’s head becomes the second lambda, as it is taking the one input parameter and calling the function again, it's like a loops or recursion.
