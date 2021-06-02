@@ -1,0 +1,4 @@
+Normal form:
+  The expression are in the normal form when there are no more evalution steps than can be token, or put differently, when they've reached an irreducible form.
+
+  Ex. Normal form of 1 + 1 is 2. Because the expression 1 + 1 can be evaluated or reduced while 2 is an expression but no longer reducible.
