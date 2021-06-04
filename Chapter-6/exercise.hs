@@ -154,11 +154,16 @@ i = 12
 chk :: (Eq b) => (a -> b) -> a -> b -> Bool
 chk f a b = (f a) == (b)
 
-square x = x * 2
+square x = x * x
 
-  -- 2 => not working
--- arith :: Num b => (a -> b) -> Integer -> a -> b
--- arith f a1 a2 = (f a2) * (a2+10)
+
+
+  -- 2 => working
+
+  -- motive is to use a1 and a2 values inside the function, as a1 and a2 has different types I think we should I have to write two function which can take any type but retuns the same type
+arith :: (Num b) => (a -> b) -> Integer -> a -> b
+arith f a1 a2 = (f a2) * 15
+
 
 
 
