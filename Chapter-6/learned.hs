@@ -52,9 +52,10 @@ data Trivial             = Trivial'
 instance Eq Trivial where
   Trivial' == Trivial' = True
 
-
+-- Day of weeks
 data DayOfWeek =
   Mon | Tue | Weds | Thu | Fri | Sat | Sun
+--  deriving (Ord, Show) -- added in Ord section
 
 data Date =
   Date DayOfWeek Int
@@ -75,7 +76,7 @@ instance Eq Date where
        (Date weekday' dayOfMonth') = 
        weekday == weekday' && dayOfMonth == dayOfMonth'
 
-
+-- identity
 data Identity a =
   Identity a
 
@@ -83,4 +84,45 @@ instance (Eq a) => Eq (Identity a) where
   (==) (Identity v) (Identity v') = (v == v')
 
 
-  
+ -- Ord 
+instance Ord DayOfWeek where
+  compare Fri Fri = EQ
+  compare Fri _   = GT
+  compare _ Fri   = LT
+  compare _ _     = EQ
+
+-- Gimme more operations
+add :: (Num a) => a -> (a -> a) 
+add = \a -> \b -> a + b
+
+addWeird :: (Num a, Ord a) => a -> (a -> a)
+addWeird = \x -> \y -> if x > 1 -- you can use == Ord implies Eq
+                       then x + y
+                       else x
+
+
+-- Ord implies Eq
+check' :: (Eq a) => a -> (a -> Bool)
+check' = \a -> \a'->  a == a'
+
+-- Eq is superclass of Ord, meas Ord has the == property of Eq
+check'' :: (Ord a) => a -> (a -> Ordering)
+check'' = \a -> \a'->  compare a a'
+
+
+-- concrete types
+
+-- add1 :: a -> (a->a) because not all type has + property, you can use Num a as used in the above add
+add' :: Int -> (Int->Int) -- works because Int has typeclasses Num, Eq, Ord
+add' = \a -> \b-> a + b
+
+{-
+
+class Num a => Fractional a where
+
+Here the typeclass Fractional inherits from Num. We could also say that Num is a superclass of Fractional.
+
+
+An instance is the definition of how a typeclass should work for a given type. Instances are unique for a given combination of typeclass and type.
+
+-} 
