@@ -46,12 +46,31 @@ squishMap :: (a -> [b]) -> [a] -> [b]
 squishMap f [] = []
 squishMap f xs =  concat $ map f xs
 
-{- not yet solved
+myMaximumBy :: (a -> a -> Ordering) -> [a] -> Maybe a
+myMaximumBy f (x: []) = Nothing
+myMaximumBy f (x:xs) = Just $ goMyMaximum f xs x
 
---myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
-myMaximumBy f [] = GT
-myMaximumBy f (x:y:xs) = case (f x y) of 
-                          GT -> myMaximumBy f (x:xs)
-                          LT -> myMaximumBy f (y:xs)
--}
+goMyMaximum f [] x = x
+goMyMaximum f (y:ys) x = case f x y of
+                          LT -> goMyMaximum f ys y
+                          GT -> goMyMaximum f ys x
 
+
+myMinimumBy :: (a -> a -> Ordering) -> [a] -> Maybe a
+myMinimumBy f (x:[]) = Nothing
+myMinimumBy f (x:xs) = Just $ goMyMinimum f xs x
+
+goMyMinimum f [] x = x
+goMyMinimum f (y:ys) x = case f x y of
+                          LT -> goMyMinimum f ys x
+                          GT -> goMyMinimum f ys y
+
+myMaximum :: (Ord a) => [a] -> Maybe a
+myMaximum [] = Nothing
+myMaximum (x:xs) = Just $ goMaximum xs x
+
+goMaximum :: (Ord a) => [a] -> a -> a
+goMaximum [] y = y
+goMaximum (x:xs) y = case x > y of
+                      True -> goMaximum xs x
+                      False -> goMaximum xs y
