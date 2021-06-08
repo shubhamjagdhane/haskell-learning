@@ -87,3 +87,30 @@ go (x:xs) = case x <= 100 of
 
 -- fact using scnal
 fact = scanl (*) 1 [2..] 
+
+
+-- Chapter exercise
+stops = "pbtdkg"
+vowels = "aeiou"
+
+words = [(x, y, z) | x <- stops, y <- vowels, z <- vowels]
+startsWithP = [(x, y, z) | x <- stops, y <- vowels, z <- vowels, x == 'p']
+
+-- rewriting with fold(r/l)
+
+myAnd :: [Bool] -> Bool
+myAnd xs = foldr (&&) True xs
+
+
+myAny :: (a -> Bool) -> [a] -> Bool
+myAny f xs = foldr ((||) . f) False xs
+
+myElem :: (Eq a) => a -> [a] -> Bool
+myElem x xs = foldr ((||) . (== x)) False xs
+
+myReverse :: [a] -> [a]
+myReverse xs = foldl (flip (:)) [] xs
+
+myMap :: (a -> b) -> [a] -> [b]
+myMap f xs = foldr ((:) . f) [] xs
+
