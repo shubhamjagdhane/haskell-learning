@@ -47,3 +47,34 @@ natToInteger (Succ (Succ Zero)) = 2
 myIterate :: (a -> a) -> a -> [a]
 myIterate f n = n : myIterate f (f n)
 
+myUnfoldr :: (b -> Maybe (a, b)) -> b -> [a]
+myUnfoldr f b = case f b of
+                  Just (a, b') -> a : myUnfoldr f b'
+                  Nothing      -> []
+
+
+betterIterate :: (a -> a) -> a -> [a]
+betterIterate f = myUnfoldr (\x -> Just (x, f x))
+
+data BinaryTree a = 
+    Leaf
+  | Node (BinaryTree a) a (BinaryTree a)
+  deriving (Eq, Ord, Show)
+
+-- 1 -> unfold for binary tree
+unfold :: (a -> Maybe (a, b, a)) -> a -> BinaryTree b
+unfold f a = case f a of
+              Just (a, a', a'') -> Node Leaf (a') Leaf
+              Nothing           -> Leaf
+  
+  
+-- 2 -> build tree
+
+treeBuild :: Integer -> BinaryTree Integer
+treeBuild 0 = Leaf
+treeBuild n = goTreeBuild n 0
+
+goTreeBuild :: Integer -> Integer -> BinaryTree Integer
+goTreeBuild n stop = case stop == n of
+                      True  -> Leaf
+                      False -> Node (goTreeBuild n (stop+1)) stop (goTreeBuild n (stop+1))
