@@ -96,5 +96,3 @@ allLanguages = [Haskell, Agda, Idris, PureScript]
 
 allProgrammers :: [Programmer]
 allProgrammers = [Programmer x  y | x <- allOperatingSystems, y <- allLanguages]
-
-
