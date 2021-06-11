@@ -1,5 +1,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE FlexibleInstances #-}
+module Exercise where
 
 data Price = Price Integer deriving (Eq, Show)
 
@@ -95,3 +96,5 @@ allLanguages = [Haskell, Agda, Idris, PureScript]
 
 allProgrammers :: [Programmer]
 allProgrammers = [Programmer x  y | x <- allOperatingSystems, y <- allLanguages]
+
+
