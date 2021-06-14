@@ -1,8 +1,9 @@
 module Addition where
-import Data.Char
+  
+import Data.Char ( isAlpha )
 
 newtype MyInteger = MyInteger Integer deriving Show
-newtype MyDouble = MyDouble Double deriving Show
+newtype MyDouble  = MyDouble Double deriving Show
 
 newtype AddType = AddType (Either Integer Double) 
 instance Show AddType where
@@ -15,6 +16,12 @@ data FinalType = Success AddType | Failure
 instance Show FinalType where
    show (Success x) = show x
    show Failure   = "Please enter only digits!"
+
+instance Eq FinalType where
+  (==) (Success (AddType (Left x))) (Success (AddType (Left y))) = x == y
+  (==) (Success (AddType (Right x))) (Success (AddType (Right y))) = x == y
+  (==) (Success (AddType (Right x))) (Success (AddType (Left y))) = False
+  (==) (Success (AddType (Left x))) (Success (AddType (Right y))) = False
 
 
 add :: String -> String -> FinalType
