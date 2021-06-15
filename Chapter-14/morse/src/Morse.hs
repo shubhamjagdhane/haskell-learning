@@ -47,6 +47,7 @@ letterToMorse = M.fromList [
   , ('8', "---..")
   , ('9', "----.")
   , ('0', "-----")
+  , (' ', "...  .--.  .-  -.-.  .")
   ]
 
 morseToLetter :: M.Map Morse Char
