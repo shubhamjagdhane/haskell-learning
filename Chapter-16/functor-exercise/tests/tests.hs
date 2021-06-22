@@ -39,6 +39,10 @@ main = do
   quickCheck $ \x -> functorIdentity (x :: (Two Int String))
   quickCheck $ \x -> functorIdentity (x :: (Two Int Int))
 
+  -- for Possibly
+  putStrLn "Possibly testing"
+  quickCheck $ \x -> functorIdentity (x :: (Possibly Int))
+
 -- Identity
 newtype Identity a = Identity a deriving (Show, Eq)
 instance Arbitrary a => Arbitrary (Identity a) where
@@ -86,3 +90,16 @@ genTwo = do
     a <- arbitrary 
     b <- arbitrary 
     elements [Two a b]
+
+
+-- Possibly (it is a Maybe datatype with Possibly name)
+data Possibly a = LolNope | Yeppers a deriving (Show, Eq)    
+
+instance Functor Possibly where
+  fmap _ LolNope     = LolNope
+  fmap f (Yeppers a) = Yeppers $ f a
+
+instance (Arbitrary a) => Arbitrary (Possibly a) where
+  arbitrary = frequency [(1, return LolNope), (3, fmap Yeppers arbitrary)]
+
+    
