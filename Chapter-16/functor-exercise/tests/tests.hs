@@ -43,6 +43,10 @@ main = do
   putStrLn "Possibly testing"
   quickCheck $ \x -> functorIdentity (x :: (Possibly Int))
 
+  -- for TalkToMe
+  putStrLn "TalkTome testing"
+  -- quickCheck $ \x -> functorIdentity (x :: (TalkToMe Int))
+
 -- Identity
 newtype Identity a = Identity a deriving (Show, Eq)
 instance Arbitrary a => Arbitrary (Identity a) where
@@ -102,4 +106,27 @@ instance Functor Possibly where
 instance (Arbitrary a) => Arbitrary (Possibly a) where
   arbitrary = frequency [(1, return LolNope), (3, fmap Yeppers arbitrary)]
 
-    
+
+-- TalkToMe
+data TalkToMe a = Halt | Print String a | Read a (String -> a)
+
+
+instance Functor TalkToMe where
+  fmap _ Halt         = Halt
+  fmap f (Print xs x) = Print xs (f x)
+  fmap f (Read a g)   = Read (f a) (f . g)
+
+-- testing remaining for TalkToMde
+
+instance (Arbitrary a) => Arbitrary (TalkToMe a) where
+  arbitrary = 
+    frequency [
+          (1, return Halt), 
+          (3, fmap (Print "show") arbitrary)
+      ]
+
+genString ::Gen String
+genString = do
+  a <- arbitrary
+  elements [a]
+
