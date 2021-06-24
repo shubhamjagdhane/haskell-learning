@@ -56,12 +56,3 @@ instance Functor Identity where
 instance Applicative Identity where
   pure               = Identity
   (Identity f) <*> x = fmap f x 
-
--- Constant instance
-
-newtype Constant a b = Constant { getConstant :: a } deriving (Eq, Ord, Show)
-
-instance Functor (Constant a) where
-  fmap f (Constant x) = Constant { getConstant = x }
-
- 
