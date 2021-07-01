@@ -1,3 +1,5 @@
+{-# LANGUAGE InstanceSigs #-}
+
 module Exercise where
 import Data.Char
 
@@ -19,3 +21,5 @@ tupled xs =  do
   let capString = fmapped revString
   (revString, capString)
 
+myLiftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
+myLiftA2 f xs ys = f <$> xs <*> ys 
