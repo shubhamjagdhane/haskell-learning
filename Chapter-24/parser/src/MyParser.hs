@@ -32,16 +32,30 @@ type Parser' a = String -> [(a, String)]
 > (runStateT $ put 2 >> return 9001) 0
 -}  
 
+one = char '1'
+one' = one >> stop
 
--- read two characters, '1', and '2'
 oneTwo = char '1' >> char '2'
-
--- read two characters, '1' and '2', then die
 oneTwo' = oneTwo >> stop
 
 testParse :: Parser Char -> IO ()
 testParse p =
   print $ parseString p mempty "123"
+
+
+pNL s =
+  putStrLn ('\n' : s)  
+newLinePrefix = do
+  pNL "stop:"
+  testParse stop
+  pNL "one:"
+  testParse one
+  pNL "one':"
+  testParse one'
+  pNL "oneTwoThree:"
+  testParse oneTwo
+  pNL "oneTwoThree':"
+  testParse oneTwo'
 
 
 badFraction = "1/0"
@@ -65,17 +79,21 @@ virtuousFraction = do
     0 -> fail "Denominator cannot be zero"
     _ -> return (numerator % denominator)
 
+-- terminate executation whenever finds 1st error
 testParseFraction :: IO ()
 testParseFraction = do
+  print $ parseString parseFraction mempty badFraction  
+  print $ parseString parseFraction mempty alsoBad
   print $ parseString parseFraction mempty shouldWork
   print $ parseString parseFraction mempty shouldAlsoWork
-  print $ parseString parseFraction mempty alsoBad
-  print $ parseString parseFraction mempty badFraction  
 
-
+-- execute all calls even if there is an error for first call
 testVirtuous :: IO ()
 testVirtuous = do
   print $ parseString virtuousFraction mempty badFraction
   print $ parseString virtuousFraction mempty alsoBad
   print $ parseString virtuousFraction mempty shouldWork
   print $ parseString virtuousFraction mempty shouldAlsoWork  
+
+
+testInt n = n >> eof
