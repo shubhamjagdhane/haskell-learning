@@ -14,17 +14,9 @@ instance (Applicative f, Applicative g) => Applicative (Compose f g) where
   pure = Compose . pure . pure
   (Compose f) <*> (Compose g) = Compose ((<*>) <$>f <*> g)
 
-  -- (+) <$> (Compose (Just [1,2,3])) <*> (Compose (Just [4,5,6]))
-{-
-incomplete exercise
+instance (Foldable f, Foldable g) => Foldable (Compose f g) where
+  -- foldMap :: (Foldable t, Monoid m) => (a -> m) -> t a -> m
+  foldMap f (Compose t) = (foldMap . foldMap) f t
 
-
-instance (Monad f, Monad g) => Monad (Compose f g) where
-  return = pure  
-
-
-IdentityT $ join (fmap (runIdentityT . f) ma)
-
-IdentityT $ ma >>= runIdentityT . f
-
--}
+instance (Traversable f, Traversable g) => Traversable (Compose f g) where
+  traverse f (Compose t) = Compose <$> (traverse . traverse) f t
