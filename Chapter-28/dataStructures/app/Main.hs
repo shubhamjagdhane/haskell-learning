@@ -3,7 +3,7 @@ module Main where
 import Lib
 
 main :: IO ()
-main = benchMarkMap
+main = benchMark
 
 
 

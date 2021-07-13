@@ -1,5 +1,7 @@
 module Lib where
 
+import BenchVector
+import BenchText
 import Criterion.Main
 import qualified Data.Map as M  
 
@@ -21,3 +23,12 @@ benchMarkMap = defaultMain
   , bench "lookup one thing, map" $
   whnf (M.lookup "doesntExist") testMap
   ]
+
+benchMark :: IO ()
+benchMark = do
+  putStrLn "\n------------------ Map Benchmark ------------------" 
+  benchMarkMap
+  putStrLn "\n------------------ Vector Benchmark ------------------" 
+  vectorBenchmark
+  putStrLn "\n------------------ Text Example ------------------" 
+  textExample 

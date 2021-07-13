@@ -18,12 +18,16 @@ library
       Lib
   other-modules:
       Paths_dataStructures
+    , BenchVector
+    , BenchText
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
     , criterion
     , containers
+    , vector
+    , text
  
   default-language: Haskell2010
 
